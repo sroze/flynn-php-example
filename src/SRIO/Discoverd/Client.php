@@ -34,6 +34,7 @@ class Client
         }
 
         $this->rpcClient = new JsonRPCClient($this->normalizeAddress($address));
+        $this->rpcClient->debug = true;
     }
 
     /**
