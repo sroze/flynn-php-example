@@ -26,7 +26,7 @@ class Client
     public function __construct($address = null)
     {
         if (!$address) {
-            $address = getenv('DISCOVERD');
+            $address = getenv('DISCOVERD').'/_goRPC_';
 
             if (!$address) {
                 throw new \RuntimeException('Unable to find Discoverd address');
