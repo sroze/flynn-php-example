@@ -1,8 +1,6 @@
 <?php
 namespace SRIO\Discovered;
 
-use JsonRPC\Client as JsonRPCClient;
-
 class Client 
 {
     /**
@@ -33,8 +31,10 @@ class Client
             }
         }
 
-        $this->rpcClient = new JsonRPCClient($this->normalizeAddress($address));
-        $this->rpcClient->debug = true;
+        $components = parse_url($this->normalizeAddress($address));
+        $this->rpcClient = new JsonRPCClient($components['host'], $components['port'], $components['path']);
+        $dialResult = $this->rpcClient->Dial();
+        var_dump($dialResult);
     }
 
     /**
@@ -45,7 +45,7 @@ class Client
      */
     public function subscribe($name)
     {
-        return $this->rpcClient->execute('Agent.Subscribe', array(
+        return $this->rpcClient->Call('Agent.Subscribe', array(
             'Name' => $name
         ));
     }

@@ -4,45 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9032e73e0e6a1afe384bb726a27808fe",
+    "hash": "7c69a4d95a61fda39726bfc6a7f16912",
     "packages": [
-        {
-            "name": "fguillot/json-rpc",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fguillot/JsonRPC.git",
-                "reference": "66db4093984790c34577c0ba0e17f2e3d2dc14a0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fguillot/JsonRPC/zipball/66db4093984790c34577c0ba0e17f2e3d2dc14a0",
-                "reference": "66db4093984790c34577c0ba0e17f2e3d2dc14a0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JsonRPC": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Unlicense"
-            ],
-            "authors": [
-                {
-                    "name": "Frédéric Guillot",
-                    "homepage": "http://fredericguillot.com"
-                }
-            ],
-            "description": "A simple Json-RPC client/server library that just works",
-            "homepage": "https://github.com/fguillot/JsonRPC",
-            "time": "2014-11-05 01:56:31"
-        },
         {
             "name": "pimple/pimple",
             "version": "v1.1.1",
@@ -518,9 +481,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "fguillot/json-rpc": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "platform": {
         "php": ">=5.5.0"

@@ -1,8 +1,7 @@
 {
     "require": {
         "php": ">=5.5.0",
-        "silex/silex": "~1.1",
-        "fguillot/json-rpc": "dev-master"
+        "silex/silex": "~1.1"
     },
     "autoload": {
         "psr-0": { "": "src/" }
