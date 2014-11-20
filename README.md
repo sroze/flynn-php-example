@@ -1,6 +1,6 @@
 # Flynn PHP application example
 
-This application show how to setup, deploy, run & update a PHP application on a Flynn cluster.
+This application show how to setup, deploy, run & update a PHP application on a [Flynn](https://flynn.io/) cluster.
 
 ## Getting started
 
@@ -22,5 +22,5 @@ git push flynn master
 
 ## Notes
 
-This application is only an example application that can be deployed to a Flynn cluster. You first need to setup a cluster.
+This application is only an example application that can be deployed to a Flynn cluster. You first need to [setup a cluster](https://flynn.io/docs/installation).
 It is using the PHP [discoverd-client library](https://github.com/sroze/discoverd-client) that allow to get the PostgreSQL service address.
