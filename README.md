@@ -6,7 +6,7 @@ This application show how to setup, deploy, run & update a PHP application on a 
 
 Clone the repository and create the Flynn application:
 ```
-git clone
+git clone https://github.com/sroze/flynn-php-example.git
 flynn create php-example
 ```
 
@@ -19,3 +19,8 @@ Deploy your application:
 ```
 git push flynn master
 ```
+
+## Notes
+
+This application is only an example application that can be deployed to a Flynn cluster. You first need to setup a cluster.
+It is using the PHP [discoverd-client library](https://github.com/sroze/discoverd-client) that allow to get the PostgreSQL service address.
