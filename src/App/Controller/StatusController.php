@@ -36,7 +36,7 @@ class StatusController implements ControllerProviderInterface
 
                 $lastHits = $database->fetchAll('SELECT * FROM hits ORDER BY hits.hitTime DESC LIMIT 10');
                 $output .= '<h2>Last 10 hits</h2>';
-                $output .= '<table><thead><tr><td>Datetime</td><td>IP</td></tr></thead><tbody>';
+                $output .= '<table><thead><tr><th>Datetime</th><th>IP</th></tr></thead><tbody>';
                 foreach($lastHits as $hit) {
                     $output .= '<tr><td>'.$hit['hittime'].'</td><td>'.$hit['ip'].'</td></tr>';
                 }
