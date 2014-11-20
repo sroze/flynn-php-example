@@ -1,61 +1,114 @@
 <?php
 namespace SRIO\Discovered;
 
+use SRIO\Discovered\Exception\JsonRPCException;
+
 class JsonRPCClient
 {
     private $host;
     private $port;
     private $path;
-    private $conn;
-    private $reqId;
+    private $options;
+    private $connection = null;
+    private $reqId = null;
 
-    function __construct($host, $port, $path) {
+    /**
+     * Constructor.
+     *
+     * @param $host
+     * @param $port
+     * @param $path
+     * @param array $options
+     */
+    function __construct($host, $port, $path, array $options = array())
+    {
         $this->host = $host;
         $this->port = $port;
         $this->path = $path;
-        $this->conn = NULL;
-        $this->reqId = 1;
+        $this->options = $options;
     }
-    function Dial() {
-        if ($this->host == "127.0.0.1" || $this->host == "localhost")
-            $host = sprintf("%s:%u", $this->host, $this->port);
-        else
-            $host = $this->host;
-        $conn = @fsockopen($host, $this->port, $errno, $errstr, 5);
+
+    /**
+     * Initialize connection to JSON-RPC server.
+     *
+     * @throws Exception\JsonRPCException
+     */
+    function dial()
+    {
+        $conn = @fsockopen($this->host, $this->port, $errorNumber, $errorString, 5);
         if (!$conn) {
-            return "$errstr ($errno)";
-        } else {
-            @fwrite($conn, "CONNECT ".$this->path." HTTP/1.0\n\n");
-            stream_set_timeout($conn, 0, 3000);
-            $line = @fgets($conn);
-            $success = 'HTTP/1.0 200 Connected';
-            if (substr($line, 0, strlen($success)) != $success) {
-                @fclose($conn);
-                return "unexpected HTTP response: $line";
-            }
-            $this->conn = $conn;
+            throw new JsonRPCException(sprintf(
+                'An error appeared while connecting to RPC server: %s (%d)',
+                $errorNumber,
+                $errorString
+            ), $errorNumber);
         }
-        return NULL;
+
+        $request = 'CONNECT '.$this->path.' HTTP/1.0'."\n";
+        if (array_key_exists('dial_headers', $this->options)) {
+            foreach ($this->options['dial_headers'] as $header => $value) {
+                $request .= $header.': '.$value."\n";
+            }
+        }
+
+        @fwrite($conn, $request."\n");
+        stream_set_timeout($conn, 0, 3000);
+        $line = @fgets($conn);
+
+        $success = 'HTTP/1.0 200 Connected';
+        if (substr($line, 0, strlen($success)) != $success) {
+            @fclose($conn);
+
+            throw new JsonRPCException(sprintf('Unexpected HTTP response while connecting: %s', $line));
+        }
+
+        $this->connection = $conn;
     }
-    function Call($method, $params) {
-        if ($this->conn == NULL)
-            return "Plaeas call Dial() first";
-        $request = array(
-            'method' => $method,
-            'params' => array($params),
-            'id' => $this->reqId,
-        );
-        $request = json_encode($request);
-        $err = fwrite($this->conn, $request."\n");
-        if ($err === false)
-            return "send data failed";
-        for (;;) {
-            $line = @fgets($this->conn);
-            if ($line != "\n") {
-                break;
-            }
+
+    /**
+     * Call a method of JSON-RPC client.
+     *
+     * @param $method
+     * @param $params
+     * @return array
+     * @throws Exception\JsonRPCException
+     */
+    function call($method, $params)
+    {
+        if ($this->connection === null) {
+            $this->dial();
         }
+
+        $request = array(
+            'Method' => $method,
+            'Params' => array($params),
+            'Id' => $this->reqId,
+        );
+
+        $request = json_encode($request);
+        if (fwrite($this->connection, $request."\n") === false) {
+            throw new JsonRPCException(sprintf(
+                'An error appeared while sending request to client'
+            ));
+        }
+
+        // Read while line is not empty
+        $line = null;
+        while ($line == null || $line == "\n") {
+            $line = @fgets($this->connection);
+        }
+
         $this->reqId += 1;
-        return json_decode($line);
+
+        // Read the received line
+        $decoded = json_decode($line);
+        if ($decoded === null) {
+            throw new JsonRPCException(sprintf(
+                'Unable to decode line received from client (%s)',
+                $line
+            ));
+        }
+
+        return $decoded;
     }
 }

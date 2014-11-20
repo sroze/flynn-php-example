@@ -32,9 +32,11 @@ class Client
         }
 
         $components = parse_url($this->normalizeAddress($address));
-        $this->rpcClient = new JsonRPCClient($components['host'], $components['port'], $components['path']);
-        $dialResult = $this->rpcClient->Dial();
-        var_dump($dialResult);
+        $this->rpcClient = new JsonRPCClient($components['host'], $components['port'], $components['path'], array(
+            'dial_headers' => array(
+                'Accept' => 'application/vnd.flynn.rpc-hijack+json'
+            )
+        ));
     }
 
     /**
@@ -45,7 +47,7 @@ class Client
      */
     public function subscribe($name)
     {
-        return $this->rpcClient->Call('Agent.Subscribe', array(
+        return $this->rpcClient->call('Agent.Subscribe', array(
             'Name' => $name
         ));
     }
