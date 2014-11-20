@@ -12,13 +12,19 @@ $app->get('/', function() {
 
 $app->get('/status', function() {
     $postgresServiceName = getenv('FLYNN_POSTGRES');
-    $output = 'PostgreSQL service name: '.$postgresServiceName."\n";
+    $output = '# PostgreSQL'."\n".'Service name: '.$postgresServiceName."\n";
 
     try {
         $client = new Client();
         $result = $client->subscribe($postgresServiceName);
 
-        var_dump($result);
+        $output .= 'Address: '.$result['Addr']."\n";
+        $output .= 'Online: '.($result['Online'] ? 'Yes' : 'No')."\n";
+        $output .= 'Created: '.$result['Created']."\n";
+        $output .= 'Attributes:'."\n";
+        foreach ($result['Attrs'] as $key => $value) {
+            $output .= '    '.$key.' = '.$value."\n";
+        }
     } catch (\Exception $e) {
         $output .= '[EXCEPTION] '.$e->getMessage()."\n";
         $output .= $e->getTraceAsString();

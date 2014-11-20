@@ -1,7 +1,9 @@
 <?php
 namespace SRIO\Discovered;
 
-class Client 
+use SRIO\Discovered\Exception\ClientException;
+
+class Client
 {
     /**
      * Default protocol used if there's no protocol in the given address.
@@ -43,13 +45,44 @@ class Client
      * Subscribe to a service updates.
      *
      * @param $name
-     * @return mixed
+     * @return array
      */
     public function subscribe($name)
     {
-        return $this->rpcClient->call('Agent.Subscribe', array(
+        return $this->call('Agent.Subscribe', array(
             'Name' => $name
         ));
+    }
+
+    /**
+     * Call Discoverd method.
+     *
+     * @param $method
+     * @param array $params
+     * @return mixed
+     * @throws Exception\ClientException
+     */
+    protected function call($method, array $params)
+    {
+        $result = $this->rpcClient->call($method, $params);
+        if (!array_key_exists('error', $result)) {
+            throw new ClientException(sprintf(
+                'Response seems to be malformated as the "error" key do not exists: %s',
+                json_encode($result)
+            ));
+        } else if ($result['error'] !== null) {
+            throw new ClientException(sprintf(
+                'Server answered with an error: %s',
+                $result['error']
+            ));
+        } else if (!array_key_exists('result', $result)) {
+            throw new ClientException(sprintf(
+                'Result is not found in server response (%s)',
+                json_encode($result)
+            ));
+        }
+
+        return $result['result'];
     }
 
     /**

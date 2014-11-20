@@ -101,7 +101,7 @@ class JsonRPCClient
         $this->reqId += 1;
 
         // Read the received line
-        $decoded = json_decode($line);
+        $decoded = json_decode($line, true);
         if ($decoded === null) {
             throw new JsonRPCException(sprintf(
                 'Unable to decode line received from client (%s)',
