@@ -303,12 +303,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroze/discoverd-client.git",
-                "reference": "17288c859d0e7568e99cb090ded3e59f61b6c259"
+                "reference": "d803ad8d670a6397dda94693b99511699a74fac5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroze/discoverd-client/zipball/17288c859d0e7568e99cb090ded3e59f61b6c259",
-                "reference": "17288c859d0e7568e99cb090ded3e59f61b6c259",
+                "url": "https://api.github.com/repos/sroze/discoverd-client/zipball/d803ad8d670a6397dda94693b99511699a74fac5",
+                "reference": "d803ad8d670a6397dda94693b99511699a74fac5",
                 "shasum": ""
             },
             "require": {
@@ -336,7 +336,7 @@
                 "flynn",
                 "php"
             ],
-            "time": "2014-11-20 12:25:13"
+            "time": "2014-11-20 14:04:03"
         },
         {
             "name": "symfony/debug",

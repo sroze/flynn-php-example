@@ -29,7 +29,7 @@ class StatusController implements ControllerProviderInterface
                 $database->executeQuery('CREATE TABLE IF NOT EXISTS hits (hitTime TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(), ip VARCHAR NOT NULL)');
 
                 $database->insert('hits', array(
-                    'ip' => $_SERVER['REMOTE_ADDR']
+                    'ip' => $_SERVER['HTTP_X_FORWARDED_FOR']
                 ));
 
                 $result = $database->fetchAssoc('SELECT COUNT(*) as number FROM hits');
