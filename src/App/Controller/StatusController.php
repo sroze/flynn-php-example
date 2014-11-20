@@ -4,6 +4,7 @@ namespace App\Controller;
 use Doctrine\DBAL\Connection;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class StatusController implements ControllerProviderInterface
 {
@@ -20,6 +21,7 @@ class StatusController implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
         $controllers->get('/', function (Application $app) {
             $output = '';
+            $status = 200;
 
             try {
                 /** @var Connection $database */
@@ -45,9 +47,11 @@ class StatusController implements ControllerProviderInterface
             } catch (\Exception $e) {
                 $output .= '<p>[EXCEPTION] '.$e->getMessage().'</p>';
                 $output .= '<pre>'.$e->getTraceAsString().'</pre>';
+
+                $status = 500;
             }
 
-            return $output;
+            return new Response($output, $status);
         });
 
         return $controllers;
