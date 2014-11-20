@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2d58a470abbc52a056f1ae869fee021b",
+    "hash": "15ae2b8576f861826cb20fee05934db6",
     "packages": [
         {
             "name": "doctrine/common",
@@ -296,6 +296,47 @@
                 "microframework"
             ],
             "time": "2014-09-26 09:32:30"
+        },
+        {
+            "name": "sroze/discoverd-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sroze/discoverd-client.git",
+                "reference": "17288c859d0e7568e99cb090ded3e59f61b6c259"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sroze/discoverd-client/zipball/17288c859d0e7568e99cb090ded3e59f61b6c259",
+                "reference": "17288c859d0e7568e99cb090ded3e59f61b6c259",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SRIO\\Discoverd\\": "src/SRIO/Discoverd/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Samuel ROZE"
+                }
+            ],
+            "description": "A PHP client for Flynn's Discoverd.",
+            "keywords": [
+                "client",
+                "discoverd",
+                "flynn",
+                "php"
+            ],
+            "time": "2014-11-20 12:25:13"
         },
         {
             "name": "symfony/debug",
@@ -605,7 +646,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "sroze/discoverd-client": 20
+    },
     "prefer-stable": false,
     "platform": {
         "php": ">=5.5.0"

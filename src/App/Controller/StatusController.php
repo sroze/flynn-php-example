@@ -4,7 +4,6 @@ namespace App\Controller;
 use Doctrine\DBAL\Connection;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
-use SRIO\Discovered\Client;
 
 class StatusController implements ControllerProviderInterface
 {

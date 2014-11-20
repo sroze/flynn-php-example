@@ -3,7 +3,7 @@ namespace App\Provider;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use SRIO\Discovered\Client;
+use SRIO\Discoverd\Client;
 
 class DiscoverdDatabaseProvider implements ServiceProviderInterface
 {
